@@ -584,7 +584,8 @@ def _task_done_callback(task: asyncio.Task):
     finally:
         flush_logs()
 
-@app.post("/ready", status_code=200)
+@app.post("/task", status_code=202)
+@app.post("/task/", status_code=202)
 async def receive_task(task_data: TaskRequest, request: Request):
     global last_received_task, background_tasks_list
     if not verify_secret(task_data.secret):
@@ -674,3 +675,4 @@ async def shutdown_event():
                 pass
     await asyncio.sleep(0.5)
     flush_logs()
+
